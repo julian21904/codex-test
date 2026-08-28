@@ -17,16 +17,26 @@
     .dinos{height:110px;display:flex;justify-content:center;align-items:flex-end;gap:4px;margin-top:10px}.dino{width:86px;height:86px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.14));animation:bob 3s ease-in-out infinite}.dino:nth-child(2){animation-delay:.5s;transform:scale(1.08)}.dino:nth-child(3){animation-delay:1s}@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -5px}}
     .content{padding:26px 20px 22px}.info{display:grid;gap:12px}.row{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center;background:#fff;border:1px solid #f0e8d4;border-radius:18px;padding:12px 14px;box-shadow:0 7px 16px rgba(90,65,20,.06)}.ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:var(--mint)}.row:nth-child(2) .ico{background:#ffe4ef}.row:nth-child(3) .ico{background:#fff0c7}.label{text-transform:uppercase;font-size:11px;letter-spacing:1.2px;font-weight:900;color:#7a8b82;margin-bottom:2px}.value{font-size:20px;font-weight:900;color:#26382f;line-height:1.15}.small{font-size:13px;color:#68776f;margin-top:3px;font-weight:600}.note{text-align:center;margin:16px 4px 0;color:#6f776e;font-size:13px;font-weight:600}
     .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.btn{border:0;border-radius:17px;padding:14px 12px;font-size:14px;font-weight:900;cursor:pointer;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s transform,.15s filter;min-height:52px}.btn:active{transform:scale(.98)}.map{background:var(--pink);color:#fff;box-shadow:0 9px 22px rgba(255,121,173,.28)}.cal{background:#6f8df6;color:#fff;box-shadow:0 9px 22px rgba(111,141,246,.25)}.footer{text-align:center;margin-top:17px;color:#6f776e;font-size:12px;font-weight:700}
-    .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--yellow);opacity:.75}.s1{left:12%;top:18%;animation:tw 1.8s infinite}.s2{right:14%;top:26%;animation:tw 2.4s infinite .4s}.s3{left:22%;top:52%;animation:tw 2.1s infinite .8s}.s4{right:24%;top:48%;animation:tw 1.7s infinite .2s}@keyframes tw{0%,100%{transform:scale(.7);opacity:.35}50%{transform:scale(1.4);opacity:1}}@media(max-width:360px){h1{font-size:30px}.value{font-size:18px}.actions{grid-template-columns:1fr}.dino{width:76px;height:76px}}
+    .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--yellow);opacity:.75}.s1{left:12%;top:18%;animation:tw 1.8s infinite}.s2{right:14%;top:26%;animation:tw 2.4s infinite .4s}.s3{left:22%;top:52%;animation:tw 2.1s infinite .8s}.s4{right:24%;top:48%;animation:tw 1.7s infinite .2s}@keyframes tw{0%,100%{transform:scale(.7);opacity:.35}50%{transform:scale(1.4);opacity:1}}
+    .sound-btn{position:fixed;z-index:20;right:14px;top:14px;border:0;border-radius:999px;background:rgba(255,255,255,.94);color:#24563d;font-weight:900;padding:10px 13px;box-shadow:0 8px 25px rgba(0,0,0,.2);cursor:pointer}.sound-start{position:fixed;z-index:30;left:50%;bottom:18px;transform:translateX(-50%);border:0;border-radius:999px;background:#fff;color:#24563d;font-weight:900;padding:13px 18px;box-shadow:0 10px 30px rgba(0,0,0,.28);cursor:pointer;white-space:nowrap;animation:pulse 1.7s infinite}.sound-start.hidden{display:none}@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.04)}}
+    .audio-credit{text-align:center;margin-top:9px;color:#879087;font-size:9px}
+    @media(max-width:360px){h1{font-size:30px}.value{font-size:18px}.actions{grid-template-columns:1fr}.dino{width:76px;height:76px}.sound-btn{font-size:12px;padding:9px 11px}}
   </style>
 </head>
 <body>
+  <audio id="jungleAudio" loop preload="auto">
+    <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b4/Walk_in_the_rainforest.ogg/Walk_in_the_rainforest.ogg.mp3" type="audio/mpeg">
+    <source src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Walk_in_the_rainforest.ogg" type="audio/ogg">
+  </audio>
+  <button id="soundBtn" class="sound-btn" type="button" onclick="toggleSound()">🔊 Dschungelklänge</button>
+  <button id="soundStart" class="sound-start" type="button" onclick="startSound()">🔊 Dschungelklänge starten</button>
+
   <div class="leaf l1">🌿</div><div class="leaf l2">🌴</div><div class="leaf l3">🍃</div><div class="leaf l4">🌿</div>
   <main class="wrap">
     <section class="card">
       <header class="hero">
         <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
-        <div class="badge">🦕 BESONDERE DINO-ABENTEUER</div>
+        <div class="badge">🦕 BESONDERES DINO-ABENTEUER</div>
         <h1>Briannas Dino-Party</h1>
         <p class="sub">Ein jurassisch lustiger Nachmittag wartet auf euch!</p>
         <div class="dinos" aria-hidden="true">
@@ -47,10 +57,18 @@
           <button class="btn cal" type="button" onclick="saveCalendar()">📅 Termin speichern</button>
         </div>
         <div class="footer">🦖 Wir freuen uns auf euch! 🦕</div>
+        <div class="audio-credit">Dschungelaufnahme: ezwa · Public Domain</div>
       </div>
     </section>
   </main>
   <script>
+    const audio=document.getElementById('jungleAudio');
+    const startButton=document.getElementById('soundStart');
+    const soundButton=document.getElementById('soundBtn');
+    audio.volume=.32;
+    async function startSound(){try{await audio.play();startButton.classList.add('hidden');soundButton.textContent='🔊 Dschungelklänge';}catch(e){startButton.classList.remove('hidden')}}
+    function toggleSound(){if(audio.paused){startSound()}else{audio.pause();soundButton.textContent='🔇 Ton aus';startButton.classList.add('hidden')}}
+    window.addEventListener('load',async()=>{try{await audio.play();startButton.classList.add('hidden')}catch(e){startButton.classList.remove('hidden')}});
     function saveCalendar(){
       const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Briannas Dino Party//DE','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:dino-party-brianna-20260926@example.local','DTSTAMP:20260827T231400Z','DTSTART;TZID=Europe/Vienna:20260926T153000','SUMMARY:Briannas Dino-Party','LOCATION:KonstanzStrasse 32, Altach, Österreich','DESCRIPTION:Briannas Dino-Party. Die Feier beginnt um 15:30 Uhr.','END:VEVENT','END:VCALENDAR'];
       const blob=new Blob([lines.join('\r\n')],{type:'text/calendar;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Briannas-Dino-Party-26-09-2026.ics';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
